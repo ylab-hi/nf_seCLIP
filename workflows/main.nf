@@ -4,36 +4,27 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { INPUT_CHECK    } from '../subworkflows/local/input_check'
 include { EXAMPLE_MODULE } from '../modules/local/example_module'
 
 workflow MAIN {
     
 
     main:
-    /*
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        CREATE CHANNELS FROM INPUT
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    */
-     
-    // Read and validate input samplesheet
-    INPUT_CHECK (
-        file(params.input)
-    )
-    
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         MAIN WORKFLOW LOGIC
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     
-    // Channel structure: [meta, [files]]
-    ch_samples = INPUT_CHECK.out.samples
-    
+    // create input channels from samplesheet
+    read_ch = channel.fromPath(params.input)
+        .splitCsv(header:true)
+        .map { row -> [row.sample_id, file(row.fastq_1), file(row.fastq_2)] }
+
     // Run example module
     EXAMPLE_MODULE (
-        ch_samples
+        read_ch
     )
     
     /*
