@@ -20,6 +20,8 @@ nextflow.enable.dsl = 2
 
 params.input = 'samplesheet.csv'
 params.outdir = 'results'
+params.star_index_repeats = '/path/to/star/index'
+params.star_index_genome = '/path/to/star/genome/index'
 params.help = false
 
 // Tool-specific parameters (customize for your pipeline)

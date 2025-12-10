@@ -15,35 +15,33 @@ process CUTADAPT_1 {
     """
     cutadapt \
         -O 1 \
-        -f fastq \
         --match-read-wildcards \
         --times 1 \
         -e 0.1 \
         --quality-cutoff 6 \
         -m 18 \
         -o ${sample}_cutadapt_1.fastq.gz \
-        -a AGATCGGAAGAGCAC \ 
-        -a GATCGGAAGAGCACA \ 
-        -a ATCGGAAGAGCACAC \ 
-        -a TCGGAAGAGCACACG \ 
-        -a CGGAAGAGCACACGT \ 
-        -a GGAAGAGCACACGTC \ 
-        -a GAAGAGCACACGTCT \ 
-        -a AAGAGCACACGTCTG \ 
-        -a AGAGCACACGTCTGA \ 
-        -a GAGCACACGTCTGAA \ 
-        -a AGCACACGTCTGAAC \ 
-        -a GCACACGTCTGAACT \ 
-        -a CACACGTCTGAACTC \ 
-        -a ACACGTCTGAACTCC \ 
-        -a CACGTCTGAACTCCA \ 
-        -a ACGTCTGAACTCCAG \ 
-        -a CGTCTGAACTCCAGT \ 
-        -a GTCTGAACTCCAGTC \ 
-        -a TCTGAACTCCAGTCA \ 
-        -a CTGAACTCCAGTCAC \ 
+        -a AGATCGGAAGAGCAC \
+        -a GATCGGAAGAGCACA \
+        -a ATCGGAAGAGCACAC \
+        -a TCGGAAGAGCACACG \
+        -a CGGAAGAGCACACGT \
+        -a GGAAGAGCACACGTC \
+        -a GAAGAGCACACGTCT \
+        -a AAGAGCACACGTCTG \
+        -a AGAGCACACGTCTGA \
+        -a GAGCACACGTCTGAA \
+        -a AGCACACGTCTGAAC \
+        -a GCACACGTCTGAACT \
+        -a CACACGTCTGAACTC \
+        -a ACACGTCTGAACTCC \
+        -a CACGTCTGAACTCCA \
+        -a ACGTCTGAACTCCAG \
+        -a CGTCTGAACTCCAGT \
+        -a GTCTGAACTCCAGTC \
+        -a TCTGAACTCCAGTCA \
+        -a CTGAACTCCAGTCAC \
         $read1 > ${sample}_cutadapt_1.log
-
     """
 
     stub:
@@ -56,7 +54,7 @@ process CUTADAPT_1 {
 process CUTADAPT_2 {
     tag "$sample"
     label 'process_single'
-    
+
     container "https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/2e/2ec131de77aafcf8578e3f0013d9a154b29c1b17afcd6b9ff784e16bb917e4ad/data"
 
     publishDir "${params.outdir}/trimmed", mode: 'copy'
@@ -72,7 +70,6 @@ process CUTADAPT_2 {
     """
     cutadapt \
         -O 5 \
-        -f fastq \
         --match-read-wildcards \
         --times 1 \
         -e 0.1 \
@@ -100,7 +97,6 @@ process CUTADAPT_2 {
         -a TCTGAACTCCAGTCA \
         -a CTGAACTCCAGTCAC \
         $read1 > ${sample}_cutadapt_2.log
-
     """
 
     stub:
